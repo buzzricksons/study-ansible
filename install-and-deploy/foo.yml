@@ -5,7 +5,7 @@
   remote_user: "{{ username }}"
   become: true
   vars_files:
-    - vars/foo
+    - vars/install
 
   roles:
     - { role: oracle-jdk8, tags: ['oracle-jdk8'] }

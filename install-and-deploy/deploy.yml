@@ -3,7 +3,7 @@
   remote_user: "{{ username }}"
   become: false
   vars_files:
-    - vars/foo
+    - vars/install
     - vars/deploy
 
   roles:

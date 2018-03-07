@@ -4,7 +4,7 @@ Middleware Install and Deploy
 ===============
 playbookグループ
 
-* foo
+* install
   - Oracle JDK 8と ApacheとTomcatをインストールする。
 * postgresql
   - postgresql をインストールする。
@@ -25,7 +25,7 @@ playbookグループ
 ### playbookの設定
 ```
 hosts
-vars/foo
+vars/install
 ```
 
 上記のファイルらを適切に設定する。
@@ -33,7 +33,7 @@ vars/foo
 ### ansible-playbook 実行
 ```shell
 $ cd cloneしたフォルダー
-$ ./build-foo.sh
+$ ./build-install.sh
 ```
 
 パスワードを問われたら対象サーバのユーザのパスワードを入力する。
@@ -50,7 +50,7 @@ $ openssl x509 -in server.csr -days 365 -req -signkey server.key -out server.crt
 
 自己証明書を作成し、各apache/confに格納する。
 
-### fooインストール
+### インストール
 
 該当warを該当tomcat/webappsに格納し、インストール操作を行う。
 
@@ -123,5 +123,5 @@ foo    ALL=(ALL)    ALL
 エラー[Jinja was looking for the following tags]がでたときの対処
 http://qiita.com/takahirono7/items/0a198da4645bab6517f5
 
-## 「-bash: ./build-foo.sh: /bin/bash^M: 誤ったインタプリタです: そのようなファイルやディレクトリはありません」のエラー対応
+## 「-bash: ./build-install.sh: /bin/bash^M: 誤ったインタプリタです: そのようなファイルやディレクトリはありません」のエラー対応
 sed -i -e 's/\r$//' script.sh
