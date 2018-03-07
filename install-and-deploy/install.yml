@@ -1,5 +1,5 @@
 ---
-# roles: oracle-jdk8, tomcat8, apache2
+# roles: user, oracle-jdk8, tomcat8, apache2
 
 - hosts: foo
   remote_user: "{{ username }}"
