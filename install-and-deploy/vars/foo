@@ -1,0 +1,44 @@
+username: ec2-user
+
+local_home: "/home/{{ username }}/exam"
+local_tmp: "{{ local_home }}/etc/tempfiles"
+local_tools: "{{ local_home }}/etc/tools"
+
+owner: "{{ username }}"
+group: "{{ username }}"
+
+jdk_download_url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.tar.gz
+jdk_archive_file: jdk-8u151-linux-x64.tar.gz
+jdk_extract_dir: jdk1.8.0_151
+
+tomcat_version: 8.0.44
+tomcat_dir: tomcat
+tomcat_home: "{{ local_home }}/{{ tomcat_dir }}"
+
+tomcat_server_port: 8006
+
+tomcat_ajp_port: 8009
+
+tomcat_min_heap_size: 4096m
+tomcat_max_heap_size: 6144m
+tomcat_new_size: 3072m
+tomcat_max_new_size: 3072m
+tomcat_metaspace_size: 256m
+tomcat_max_metaspace_size: 512m
+
+apr_download_url: http://ftp.meisei-u.ac.jp/mirror/apache/dist//apr/apr-1.6.3.tar.gz
+apr_archive_file: apr-1.6.3.tar.gz
+apr_archive_dir: apr-1.6.3
+
+apr_util_download_url: http://ftp.meisei-u.ac.jp/mirror/apache/dist//apr/apr-util-1.6.1.tar.gz
+apr_util_archive_file: apr-util-1.6.1.tar.gz
+apr_util_archive_dir: apr-util-1.6.1
+
+apache_download_url: http://ftp.meisei-u.ac.jp/mirror/apache/dist//httpd/httpd-2.4.29.tar.gz
+apache_archive_file: httpd-2.4.29.tar.gz
+apache_archive_dir: httpd-2.4.29
+apache_dir: apache
+apache_home: "{{ local_home }}/{{ apache_dir }}"
+
+apache_listen: 8080
+apache_ssl_listen: 8443

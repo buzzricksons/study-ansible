@@ -1,0 +1,5 @@
+---
+  - name: Tomcat Check
+    shell: "ps -ef | grep tomcat"
+    register: result
+  - debug: msg="{{ result.stdout_lines }}"

@@ -1,0 +1,70 @@
+---
+
+- name: tomcat download
+  get_url: url=http://archive.apache.org/dist/tomcat/tomcat-8/v{{tomcat_version}}/bin/apache-tomcat-{{tomcat_version}}.tar.gz
+           dest={{ local_tmp }}/apache-tomcat-{{tomcat_version}}.tar.gz
+           owner={{ owner }} group={{ group }} mode=0755
+  tags:
+    - tomcat
+
+- name: check {{ local_tmp }}
+  file: path={{ local_tmp }}/apache-tomcat state=directory owner={{ owner }} group={{ group }} mode=0755
+  tags:
+    - tomcat
+
+- name: "unzip {{ local_tmp }}/apache-tomcat-{{tomcat_version}}.tar.gz"
+  command: tar xzf {{ local_tmp }}/apache-tomcat-{{tomcat_version}}.tar.gz -C {{ local_tmp }}/apache-tomcat --strip-components=1
+    creates={{ tomcat_home }}
+    chdir={{ local_tmp }}
+  tags:
+    - tomcat
+
+- name: "mv {{ local_tmp }}/apache-tomcat {{ tomcat_home }}"
+  command: mv {{ local_tmp }}/apache-tomcat {{ tomcat_home }}
+    creates={{ tomcat_home }}
+  tags:
+    - tomcat
+
+- name: "delete {{ tomcat_home }}/webapps/docs"
+  file: path={{ tomcat_home }}/webapps/docs state=absent
+  tags:
+    - tomcat
+
+- name: "delete {{ tomcat_home }}/webapps/examples"
+  file: path={{ tomcat_home }}/webapps/examples state=absent
+  tags:
+    - tomcat
+
+- name: "delete {{ tomcat_home }}/webapps/manager"
+  file: path={{ tomcat_home }}/webapps/manager state=absent
+  tags:
+    - tomcat
+
+- name: "delete {{ tomcat_home }}/webapps/host-manager"
+  file: path={{ tomcat_home }}/webapps/host-manager state=absent
+  tags:
+    - tomcat
+
+- name: "delete {{ tomcat_home }}/webapps/ROOT"
+  file: path={{ tomcat_home }}/webapps/ROOT state=absent
+  tags:
+    - tomcat
+
+- name: "add {{ tomcat_home }}/bin/setenv.sh"
+  template: src=tomcat/bin/setenv.sh dest={{ tomcat_home }}/bin/setenv.sh mode=0755
+  tags:
+    - tomcat
+
+- name: "{{ tomcat_home }}/conf update"
+  template: src=tomcat/conf/{{item}} dest={{ tomcat_home }}/conf/{{item}}
+  with_items:
+    - server.xml
+    - web.xml
+  tags:
+    - tomcat
+
+- name: "{{ tomcat_home }} chown"
+  command: chown {{ owner }}:{{ group }} {{ tomcat_home }} -R
+    removes={{ tomcat_home }}
+  tags:
+    - tomcat

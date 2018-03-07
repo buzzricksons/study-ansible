@@ -1,0 +1,3 @@
+---
+
+- include: oracle-jdk8.yml tags=oracle-jdk8

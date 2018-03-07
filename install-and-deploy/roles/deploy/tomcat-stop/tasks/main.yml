@@ -1,0 +1,18 @@
+---
+- name: Standby Stop tomcat
+  command: ./shutdown.sh
+  args:
+    chdir: "{{ tomcat_home }}/bin"
+  register: standby_check
+#- debug: msg="{{standby_check.stderr}}"
+- debug: msg="{{standby_check.stdout_lines}}"
+- debug: var=standby_check
+
+- name: Wait for tomcat Stop
+  wait_for:
+    path: "{{ tomcat_home }}/bin"
+    state: absent
+
+# java.net.BindException: Address already in use
+- name: Pause task 5 seconds
+  pause: seconds=5

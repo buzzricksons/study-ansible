@@ -1,0 +1,5 @@
+---
+  - name: Apache start
+    shell: ./apachectl start
+    args:
+      chdir: "{{ apache_home }}/bin"

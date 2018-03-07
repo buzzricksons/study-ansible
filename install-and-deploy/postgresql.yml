@@ -1,0 +1,10 @@
+---
+
+- hosts: postgresql
+  remote_user: "{{ username }}"
+  become: true
+  vars_files:
+    - vars/postgresql
+
+  roles:
+    - postgresql

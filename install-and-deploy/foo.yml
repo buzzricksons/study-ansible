@@ -1,0 +1,13 @@
+---
+# roles: oracle-jdk8, tomcat8, apache2
+
+- hosts: foo
+  remote_user: "{{ username }}"
+  become: true
+  vars_files:
+    - vars/foo
+
+  roles:
+    - { role: oracle-jdk8, tags: ['oracle-jdk8'] }
+    - apache2
+    - tomcat8

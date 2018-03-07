@@ -1,0 +1,11 @@
+---
+- name: Standby tomcat Start
+  shell: nohup ./startup.sh &
+  args:
+    chdir: "{{ tomcat_home }}/bin"
+  register: standby_check
+#- debug: msg="{{standby_check.stderr}}"
+- debug: msg="{{standby_check.stdout_lines}}"
+
+- name: Wait for tomcat to start
+  wait_for: port={{ tomcat_server_port }}

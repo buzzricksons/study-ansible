@@ -1,0 +1,25 @@
+#server:
+#  port: 9080
+
+example:
+  error-message: ERROR
+
+example1:
+  return-value: Hello!
+
+example2:
+  return-value: SUCCESS
+  id: foo
+  pw: bar
+
+
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:example-app;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE;MODE=PostgreSQL
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+

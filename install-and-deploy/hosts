@@ -1,0 +1,9 @@
+[foo]
+54.250.154.166 ansible_connection=local
+
+[postgresql]
+54.250.154.166
+
+[all:vars]
+deploy_address=54.250.154.166
+deploy_volume=foo

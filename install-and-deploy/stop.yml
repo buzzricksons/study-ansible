@@ -1,0 +1,11 @@
+---
+- hosts: foo
+  remote_user: "{{ username }}"
+  become: false
+  vars_files:
+    - vars/foo
+    - vars/deploy
+
+  roles:
+  - { role: deploy/tomcat-stop, tags: ['tomcat-stop'] }
+  - { role: deploy/common-apache-stop, tags: ['apache-stop'] }

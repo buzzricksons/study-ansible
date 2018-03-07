@@ -1,0 +1,14 @@
+username: postgres
+
+local_home: "/home/{{ username }}"
+local_src: "{{ local_home }}/src"
+
+owner: "{{ username }}"
+group: "{{ username }}"
+
+postgresql_download_url: https://ftp.postgresql.org/pub/source/v9.6.1/postgresql-9.6.1.tar.bz2
+postgresql_archive_file: postgresql-9.6.1.tar.bz2
+postgresql_archive_dir: pgsql
+
+postgresql_data: "{{ local_home }}/pgdata"
+postgresql_logs: "{{ local_home }}/logs"

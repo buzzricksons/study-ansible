@@ -1,0 +1,13 @@
+---
+  - name: Delete current tomcat webapps directory
+    shell: rm -rf ./*
+    args:
+      chdir: "{{ tomcat_home }}/webapps"
+
+  - name: Delete current tomcat work directory
+    shell: rm -rf ./*
+    args:
+      chdir: "{{ tomcat_home }}/work"
+
+  - name: Copy new War file to tomcat webapps directory
+    command: cp -ar "{{ local_wars }}/{{ war_file }}" "{{ tomcat_home }}/webapps/{{ deploy_war_file }}"

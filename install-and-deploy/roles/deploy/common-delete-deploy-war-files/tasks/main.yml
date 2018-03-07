@@ -1,0 +1,5 @@
+---
+  - name: Delete War files in wars folder
+    file: path={{ local_wars }}/{{ item }} state=absent
+    with_items:
+      - "{{ war_file }}"

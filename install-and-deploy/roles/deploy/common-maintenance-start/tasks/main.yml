@@ -1,0 +1,21 @@
+---
+#================== Maintenance ==================
+#RewriteCond %{REQUEST_URI} !=/contents/sorry.html
+#RewriteCond %{REMOTE_ADDR} !=127.0.0.1
+#RewriteRule /.*$ /contents/sorry.html [R=503,L]
+#================== /Maintenance ==================
+
+  # FrontのApacheのみ実行
+#  - name: Edit httpd-rewrite.conf file for Start maintenance
+#    replace:
+#      dest: "{{ apache_home }}/conf/extra/httpd-rewrite.conf"
+#      regexp: '#RewriteRule \/\.\*\$ \/contents\/sorry\.html \[R=503,L\]'
+#      replace: 'RewriteRule /.*$ /contents/sorry.html [R=503,L]'
+#      backup: yes
+#
+#  - name: Edit httpd-rewrite-ssl.conf file for Start maintenance
+#    replace:
+#      dest: "{{ apache_front_home }}/conf/extra/httpd-rewrite-ssl.conf"
+#      regexp: '#RewriteCond %{REQUEST_URI} !=\/contents\/sorry\.html\n#RewriteCond %{REMOTE_ADDR} !={{ maintenance_approved_address1 }}\n#RewriteCond %{REMOTE_ADDR} !={{ maintenance_approved_address2 }}\n#RewriteRule \/\.\*\$ \/contents\/sorry\.html \[R=503,L\]'
+#      replace: 'RewriteCond %{REQUEST_URI} !=/contents/sorry.html\nRewriteCond %{REMOTE_ADDR} !={{ maintenance_approved_address1 }}\nRewriteCond %{REMOTE_ADDR} !={{ maintenance_approved_address2 }}\nRewriteRule /.*$ /contents/sorry.html [R=503,L]'
+#      backup: yes

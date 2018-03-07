@@ -1,0 +1,82 @@
+---
+
+- name: install library for apache
+  yum: name={{ item }} state=present
+  with_items:
+   - gcc
+   - make
+   - openssl-devel
+   - expat-devel
+   - pcre-devel
+#   - cronolog
+   - gzip
+
+- name: add tools directory
+  file: path={{ local_tools }} state=directory owner={{ owner }} group={{ group }} mode=755
+
+- name: add tmp directory
+  file: path={{ local_tmp }} state=directory owner={{ owner }} group={{ group }} mode=755
+
+- name: apr download
+  get_url:
+    url={{ apr_download_url }}
+    dest={{ local_tmp }}/{{ apr_archive_file }}
+    owner={{ owner }} group={{ group }} mode=755
+
+- name: get out from apr
+  command: /bin/tar xzf {{ local_tmp }}/{{ apr_archive_file }} -C {{ local_tmp }}/
+    chdir={{ local_tmp }}
+
+- name: apr configure
+  command: ./configure --prefix={{ local_tools }}/{{ apr_archive_dir }}
+    creates={{ local_tools }}/{{ apr_archive_dir }}
+    chdir={{ local_tmp }}/{{ apr_archive_dir }}
+
+- name: apr make
+  command: make
+    creates={{ local_tools }}/{{ apr_archive_dir }}
+    chdir={{ local_tmp }}/{{ apr_archive_dir }}
+
+- name: apr make install
+  command: make install
+    creates={{ local_tools }}/{{ apr_archive_dir }}
+    chdir={{ local_tmp }}/{{ apr_archive_dir }}
+
+- name: apr chown
+  command: chown {{ owner }}:{{ group }} {{ local_tools }}/{{ apr_archive_dir }} -R
+    removes={{ local_tools }}/{{ apr_archive_dir }}
+
+- name: apr util download
+  get_url:
+    url={{ apr_util_download_url }}
+    dest={{ local_tmp }}/{{ apr_util_archive_file }}
+    owner={{ owner }} group={{ group }} mode=744
+
+- name: get out from apr util
+  command: /bin/tar xzf {{ local_tmp }}/{{ apr_util_archive_file }} -C {{ local_tmp }}/
+    chdir={{ local_tmp }}
+
+- name: apr util configure
+  command: ./configure --prefix={{ local_tools }}/{{ apr_util_archive_dir }} --with-apr={{ local_tools }}/{{ apr_archive_dir }}
+    creates={{ local_tools }}/{{ apr_util_archive_dir }}
+    chdir={{ local_tmp }}/{{ apr_util_archive_dir }}
+
+- name: apr util make
+  command: make
+    creates={{ local_tools }}/{{ apr_util_archive_dir }}
+    chdir={{ local_tmp }}/{{ apr_util_archive_dir }}
+
+- name: apr util make install
+  command: make install
+    creates={{ local_tools }}/{{ apr_util_archive_dir }}
+    chdir={{ local_tmp }}/{{ apr_util_archive_dir }}
+
+- name: apr util chown
+  command: chown {{ owner }}:{{ group }} {{ local_tools }}/{{ apr_util_archive_dir }} -R
+    removes={{ local_tools }}/{{ apr_util_archive_dir }}
+
+- name: apache download
+  get_url:
+    url={{ apache_download_url }}
+    dest={{ local_tmp }}/{{ apache_archive_file }}
+    owner={{ owner }} group={{ group }} mode=744

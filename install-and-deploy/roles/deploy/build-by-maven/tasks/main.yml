@@ -1,0 +1,8 @@
+---
+- name: Build by maven
+  shell: mvn clean package
+  args:
+    chdir: "{{ app_repository }}"
+  register: standby_check
+
+#- debug: msg="{{standby_check.stdout_lines}}"

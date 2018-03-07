@@ -1,0 +1,7 @@
+username: ec2-user
+
+local_wars: "/home/{{ username }}/exam/etc/exam/target"
+app_repository: "/home/{{ username }}/exam/etc/exam"
+war_paste_mode: "664"
+war_file: exam-0.1-SNAPSHOT.war
+deploy_war_file: ROOT.war

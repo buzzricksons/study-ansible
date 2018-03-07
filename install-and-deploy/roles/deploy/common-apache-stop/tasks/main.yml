@@ -1,0 +1,5 @@
+---
+  - name: Apache stop
+    shell: ./apachectl stop
+    args:
+      chdir: "{{ apache_home }}/bin"

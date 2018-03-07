@@ -1,0 +1,24 @@
+---
+
+- name: Install wget
+  yum: name=wget state=present
+
+- name: check {{ local_tmp }}
+  file: path={{ local_tmp }} state=directory owner={{ owner }} group={{ group }} mode=0775
+
+- name: download Oracle JDK 8u151
+#wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.tar.gz
+  get_url: url={{ jdk_download_url }} dest={{ local_tmp }}/{{ jdk_archive_file }} headers="Cookie:' oraclelicense=accept-securebackup-cookie'" validate_certs=no owner={{ owner }} group={{ group }} mode=744
+
+- name: Extract Oracle JDK archive
+  command: tar xzf {{jdk_archive_file}} -C {{ local_home }}/ creates={{ local_home }}/{{ jdk_extract_dir }} chdir={{ local_tmp }}
+
+- name: Oracle JDK chown
+  command: chown {{ owner }}:{{ group }} {{ local_home }}/{{ jdk_extract_dir }} -R
+    removes={{ local_home }}/{{ jdk_extract_dir }}
+
+#- name: Register /etc/profile
+#  template: src=profile.d/java.sh dest=/etc/profile.d/java.sh owner=root group=root mode=0755
+
+- name: Make Java available for system
+  command: 'alternatives --install "/usr/bin/java" "java" "{{ local_home }}/{{ jdk_extract_dir }}/bin/java" 2000'

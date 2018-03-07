@@ -1,0 +1,81 @@
+---
+
+- include: common.yml
+  tags:
+    - apache
+
+- name: "add {{ local_tmp }}/{{ apache_dir }} directory"
+  file: path={{ local_tmp }}/{{ apache_dir }} state=directory owner={{ owner }} group={{ group }} mode=755
+  tags:
+    - apache
+
+- name: "get our from {{ apache_archive_file }}"
+  command: tar xzf {{ local_tmp }}/{{ apache_archive_file }} -C {{ local_tmp }}/{{ apache_dir }} --strip-components=1
+    chdir={{ local_tmp }}
+  tags:
+    - apache
+
+- name: "{{ local_tmp }}/{{ apache_dir }} configure"
+  command: ./configure --prefix={{ apache_home }} --enable-proxy --enable-proxy-ajp --enable-proxy-balancer --enable-rewrite=shared --enable-so --enable-ssl --with-apr={{ local_tools }}/{{ apr_archive_dir }} --with-apr-util={{ local_tools }}/{{ apr_util_archive_dir }}
+    creates={{ apache_home }}
+    chdir={{ local_tmp }}/{{ apache_dir }}
+  tags:
+    - apache
+
+- name: "{{ local_tmp }}/{{ apache_dir }} make"
+  command: make
+    creates={{ apache_home }}
+    chdir={{ local_tmp }}/{{ apache_dir }}
+  tags:
+    - apache
+
+- name: "{{ local_tmp }}/{{ apache_dir }} make install"
+  command: make install
+    creates={{ apache_home }}
+    chdir={{ local_tmp }}/{{ apache_dir }}
+  tags:
+    - apache
+
+- name: "{{ apache_home }} conf update"
+  template: src=apache/conf/{{item.dir}}/{{item.name}} dest={{ apache_home }}/conf/{{item.dir}}/{{item.name}} mode=755
+  with_items:
+    - { name: httpd.conf , dir: . }
+    - { name: httpd-mpm.conf , dir: extra }
+    - { name: httpd-default.conf , dir: extra }
+    - { name: httpd-proxy.conf , dir: extra }
+    - { name: httpd-vhosts.conf , dir: extra }
+    - { name: httpd-ssl.conf , dir: extra }
+    - { name: httpd-rewrite.conf , dir: extra }
+    - { name: httpd-rewrite-ssl.conf , dir: extra }
+  tags:
+    - apache
+
+- name: "add {{ apache_home }}/htdocs/contents"
+  file: path={{ apache_home }}/htdocs/contents state=directory owner={{ owner }} group={{ group }} mode=755
+  tags:
+    - apache
+
+- name: "add {{ apache_home }}/bin/passphrase.sh"
+  template: src=apache/passphrase.sh dest={{ apache_home }}/bin/passphrase.sh mode=755
+  tags:
+    - apache
+
+- name: "add {{ apache_home }}/htdocs/contents/sorry.html"
+  template: src=apache/sorry.html dest={{ apache_home }}/htdocs/contents/sorry.html mode=755
+  tags:
+    - apache
+
+- name: "{{ apache_home }} chown"
+  command: chown {{ owner }}:{{ group }} {{ apache_home }} -R
+    removes={{ apache_home }}
+  tags:
+    - apache
+
+#- name: "{{ apache_home }} openssl"
+#  command: '"{{ item }}" chdir={{ apache_home }}/conf'
+#  with_items:
+#    - openssl genrsa -des3 -out server.key -passout pass:password 2048
+#    - echo -e 'JP\\nTokyo\\nMinato-ku\\nExample\\nExample Section\\n\\n\\n\\n\\n' | openssl req -new -key server.key -out server.csr -passin pass:password
+#    - openssl x509 -in server.csr -days 365 -req -signkey server.key -out server.crt -passin pass:password
+#  tags:
+#    - apache

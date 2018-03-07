@@ -1,0 +1,17 @@
+---
+- hosts: foo
+  remote_user: "{{ username }}"
+  become: false
+  vars_files:
+    - vars/foo
+    - vars/deploy
+
+  roles:
+#  - { role: deploy/common-maintenance-start, tags: ['maintenance-start'] }
+  - { role: deploy/git-pull, tags: ['git-pull'] }
+  - { role: deploy/build-by-maven, tags: ['build'] }
+  - { role: deploy/tomcat-stop, tags: ['tomcat-stop'] }
+  - { role: deploy/deploy-war-to-tomcat, tags: ['deploy-war'] }
+  - { role: deploy/tomcat-start, tags: ['tomcat-start'] }
+#  - { role: deploy/common-maintenance-stop, tags: ['maintenance-stop'] }
+  - { role: deploy/common-tomcat-check, tags: ['tomcat-check']  }

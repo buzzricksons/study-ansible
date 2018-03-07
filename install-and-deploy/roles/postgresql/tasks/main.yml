@@ -1,0 +1,96 @@
+---
+
+- name: postgresql用ライブラリインストール
+  yum: name={{ item }} state=present
+  with_items:
+   - gcc*
+   - make
+   - bzip2
+   - readline
+   - readline-devel
+   - zlib-devel
+
+- name: "{{ local_src }} ディレクトリ追加"
+  file: path={{ local_src }} state=directory owner={{ owner }} group={{ group }} mode=755
+
+- name: "{{ local_src }}/{{ postgresql_archive_dir }} ディレクトリ追加"
+  file: path={{ local_src }}/{{ postgresql_archive_dir }} state=directory owner={{ owner }} group={{ group }} mode=755
+
+- name: "{{ postgresql_download_url }} ダウンロード"
+  get_url:
+    url={{ postgresql_download_url }}
+    dest={{ local_src }}/{{ postgresql_archive_file }}
+    owner={{ owner }} group={{ group }} mode=744
+
+- name: postgresql 抽出
+  command: tar jxf {{ local_src }}/{{ postgresql_archive_file }} -C {{ local_src }}/{{ postgresql_archive_dir }} --strip-components=1
+    creates={{ local_src }}/{{ postgresql_archive_dir }}
+    chdir={{ local_src }}
+
+- name: postgresql configure
+  command: ./configure --prefix={{ local_home }}/{{ postgresql_archive_dir }}
+    creates={{ local_home }}/{{ postgresql_archive_dir }}
+    chdir={{ local_src }}/{{ postgresql_archive_dir }}
+
+- name: postgresql make
+  command: make
+    creates={{ local_home }}/{{ postgresql_archive_dir }}
+    chdir={{ local_src }}/{{ postgresql_archive_dir }}
+
+- name: postgresql make install
+  command: make install
+    creates={{ local_home }}/{{ postgresql_archive_dir }}
+    chdir={{ local_src }}/{{ postgresql_archive_dir }}
+
+- name: postgresql pgcrypto make
+  command: make
+    creates={{ postgresql_data }}
+    chdir={{ local_src }}/{{ postgresql_archive_dir }}/contrib/pgcrypto
+
+- name: postgresql pgcrypto make install
+  command: make install
+    creates={{ postgresql_data }}
+    chdir={{ local_src }}/{{ postgresql_archive_dir }}/contrib/pgcrypto
+
+- name: "{{ local_home }}/{{ postgresql_archive_dir }} chown"
+  command: chown {{ owner }}:{{ group }} {{ local_home }}/{{ postgresql_archive_dir }} -R
+    removes={{ local_home }}/{{ postgresql_archive_dir }}
+
+- name: Register /etc/profile
+  template: src=profile.d/pgsql.sh dest=/etc/profile.d/pgsql.sh owner=root group=root mode=0755
+
+- name: "{{ postgresql_logs }} ディレクトリ追加"
+  file: path={{ postgresql_logs }} state=directory owner={{ owner }} group={{ group }} mode=755
+
+- name: "{{ postgresql_data }} ディレクトリ追加"
+  file: path={{ postgresql_data }} state=directory owner={{ owner }} group={{ group }} mode=700
+
+- name: データベースクラスタの作成
+  command: "{{ local_home }}/{{ postgresql_archive_dir }}/bin/initdb --locale=C --encoding=UTF8 --pgdata={{ postgresql_data }}"
+    creates={{ postgresql_data }}
+  become: no
+
+- name: postgresql conf 追加
+  template: src={{item.dir}}/{{item.name}} dest={{ postgresql_data }}/{{item.name}} owner={{ owner }} group={{ group }} mode=0600
+  with_items:
+    - { name: pg_hba.conf , dir: postgresql }
+    - { name: postgresql.conf , dir: postgresql }
+  become: no
+
+- name: "{{ local_home }}/{{ postgresql_archive_dir }}/bin/pg_ctl start"
+  command: "{{ local_home }}/{{ postgresql_archive_dir }}/bin/pg_ctl start -D {{ postgresql_data }}"
+  become: no
+
+#- name: "test"
+#  command: "echo AAA"
+#  when: hotsts_environment == xx_environment
+#  become: no
+
+#- name: "{{ db_name }} DB作成"
+#  command: "{{ local_home }}/{{ postgresql_archive_dir }}/bin/createdb -e -E UTF8 {{ db_username }} -U {{ username }} {{ db_name }}"
+#  become: no
+
+#- name: "{{ db_username }} ユーザ作成"
+#  command: "{{ local_home }}/{{ postgresql_archive_dir }}/bin/createuser -S -R -D -i -l -P -U {{ username }} {{ db_username }}"
+#  become: no
+
