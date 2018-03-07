@@ -1,4 +1,7 @@
 ---
+  - name: Creates directory
+    file: path={{ app_repository }} state=directory
+
   - name: git pull
     shell: git pull
     args:
