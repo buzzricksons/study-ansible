@@ -11,5 +11,4 @@
     group={{ username }}
     shell=/bin/bash
     password= {{ username }}
-#    groups=sudo
     append=yes
