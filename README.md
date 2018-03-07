@@ -1,52 +1,6 @@
 # 概要
-## 課題のために実装したウェブアプリケーション
-利用したフレームワークおよび言語
-
-- Java 8
-- Spring Boot
-- MyBatis
-- Maven
-- Flyway(DBマイグレーション)
-
-## DB
-- H2(in memory)
-
-## 環境構築およびリリース
-- Ansible
-
-## 構成
-> https://github.com/buzzricksons/study-ansible-and-webapp.git
-
-```
-/home/ec2-user/exam/etc/exam
-│
-├── install-and-deploy ->ミドルウェアのインストールとアプリケーションのデプロイなどを行うAnsible
-│   ├── roles
-│   │   ├── apache2
-│   │   ├── deploy
-│   │   ├── oracle-jdk8
-│   │   ├── postgresql
-│   │   └── tomcat8
-│   └── vars
-├── src ->ウェブアプリケーションのメインソース(Java)
-│   ├── main
-│   │   ├── java
-│   │   │   └── com
-│   │   │       └── example
-│   │   │           ├── exam1
-│   │   │           ├── exam2
-│   │   │           ├── exam3
-│   │   │           └── exam4
-│   │   └── resources
-│   │       └── db
-│   │           └── migration ->DBを作成するsql文を配置
-│   └── test
-│       └── java
-│           └── com
-│               └── example
-│                   └── exam1 ->課題1のテストケース
-└── target ->buildの成果物が作成される場所
-```
+## 対象のウェブアプリケーション
+https://github.com/buzzricksons/study-web-app
 
 # 作業ログ
 ## 環境構築
@@ -56,12 +10,6 @@
 - Tomcat
 - Maven
 - JDK
-
-### バージョン変更
-- JDK7 -> JDK8
-
-## 課題
-gitのpush履歴に基づいています。
 
 # その他
 ## リリース方法
