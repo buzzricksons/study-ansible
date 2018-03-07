@@ -1,4 +1,4 @@
-username: ec2-user
+username: root
 
 local_home: "/home/{{ username }}/exam"
 local_tmp: "{{ local_home }}/etc/tempfiles"

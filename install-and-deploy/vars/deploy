@@ -1,4 +1,4 @@
-username: ec2-user
+username: root
 
 local_wars: "/home/{{ username }}/exam/etc/exam/target"
 app_repository: "/home/{{ username }}/exam/etc/exam"
