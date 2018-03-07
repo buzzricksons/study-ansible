@@ -15,7 +15,7 @@
 
 - name: Extract Oracle JDK archive
   unarchive:
-    src: "{{ jdk_archive_file }}"
+    src: "{{ local_tmp }}/{{ jdk_archive_file }}"
     dest: "{{ local_home }}/{{ jdk_extract_dir }}"
 
 - name: Oracle JDK chown
