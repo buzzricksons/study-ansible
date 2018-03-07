@@ -13,6 +13,9 @@
 #- name: Extract Oracle JDK archive
 #  command: tar xzf {{jdk_archive_file}} -C {{ local_home }}/ creates={{ local_home }}/{{ jdk_extract_dir }} chdir={{ local_tmp }}
 
+- name: Ensures JDK extract dir exists
+  file: path={{ local_home }}/{{ jdk_extract_dir }} state=directory
+
 - name: Extract Oracle JDK archive
   unarchive:
     src: "{{ local_tmp }}/{{ jdk_archive_file }}"
