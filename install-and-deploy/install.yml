@@ -8,7 +8,7 @@
     - vars/install
 
   roles:
-    - user
+    - { role: user, tags: ['user'] }
     - { role: oracle-jdk8, tags: ['oracle-jdk8'] }
-    - apache2
-    - tomcat8
+    - { role: apache2, tags: ['apache2'] }
+    - { role: tomcat8, tags: ['tomcat8'] }
