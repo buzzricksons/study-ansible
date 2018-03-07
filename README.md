@@ -15,7 +15,7 @@
 - Ansible
 
 ## 構成
-> https://hyungcheol_kim@bitbucket.org/hyungcheol_kim/exam.git
+> https://github.com/buzzricksons/study-ansible-and-webapp.git
 
 ```
 /home/ec2-user/exam/etc/exam
