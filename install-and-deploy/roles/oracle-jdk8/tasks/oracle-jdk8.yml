@@ -10,8 +10,13 @@
 #wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.tar.gz
   get_url: url={{ jdk_download_url }} dest={{ local_tmp }}/{{ jdk_archive_file }} headers="Cookie:' oraclelicense=accept-securebackup-cookie'" validate_certs=no owner={{ owner }} group={{ group }} mode=744
 
+#- name: Extract Oracle JDK archive
+#  command: tar xzf {{jdk_archive_file}} -C {{ local_home }}/ creates={{ local_home }}/{{ jdk_extract_dir }} chdir={{ local_tmp }}
+
 - name: Extract Oracle JDK archive
-  command: tar xzf {{jdk_archive_file}} -C {{ local_home }}/ creates={{ local_home }}/{{ jdk_extract_dir }} chdir={{ local_tmp }}
+  unarchive:
+    src: jdk_archive_file
+    dest: {{ local_home }}/{{ jdk_extract_dir }}
 
 - name: Oracle JDK chown
   command: chown {{ owner }}:{{ group }} {{ local_home }}/{{ jdk_extract_dir }} -R
