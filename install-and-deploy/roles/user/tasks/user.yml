@@ -3,7 +3,7 @@
 - name: Adding group {{ username }}
   group:
     name={{ username }}
-    state: present
+    state=present
 
 - name: Adding user {{ username }}
   user: name={{ username }}
