@@ -1,6 +1,6 @@
 package com.example.exam4.service;
 
-import com.example.exam4.StockInfo;
+import com.example.exam4.FactoryInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,21 +12,21 @@ import java.util.List;
  * @author HyungCheol Kim
  */
 @Component
-public class StockServiceProxy {
+public class FactoryServiceProxy {
     /**
-     * {@link StockService}を実装したクラスのリスト
+     * {@link FactoryService}を実装したクラスのリスト
      */
     @Autowired
-    private List<StockService> services;
+    private List<FactoryService> services;
 
     /**
-     * 引数の対象になるサービスを検索し、{@link StockService#result(StockInfo)}処理を行います。
+     * 引数の対象になるサービスを検索し、{@link FactoryService#result(FactoryInfo)}処理を行います。
      *
      * @param info serviceの情報
      * @return 文字列
-     * @throws RuntimeException 対象になる{@link StockService}が存在しない場合
+     * @throws RuntimeException 対象になる{@link FactoryService}が存在しない場合
      */
-    public String execute(StockInfo info) {
+    public String execute(FactoryInfo info) {
         String result = services.stream()
                 .filter(service -> service.isExecutable(info))
                 .findAny()

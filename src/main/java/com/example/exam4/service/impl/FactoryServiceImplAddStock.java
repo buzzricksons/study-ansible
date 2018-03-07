@@ -1,10 +1,10 @@
 package com.example.exam4.service.impl;
 
 import com.example.exam4.Utils;
-import com.example.exam4.service.mapper.data.AddStockData;
-import com.example.exam4.service.mapper.AddStockMapper;
-import com.example.exam4.StockInfo;
-import com.example.exam4.service.StockService;
+import com.example.exam4.service.mapper.data.AddFactorykData;
+import com.example.exam4.service.mapper.AddFactoryMapper;
+import com.example.exam4.FactoryInfo;
+import com.example.exam4.service.FactoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,27 +19,27 @@ import java.math.BigDecimal;
  *
  */
 @Component
-public class StockServiceImplAddStock implements StockService {
+public class FactoryServiceImplAddStock implements FactoryService {
     @Value("${example.error-message}")
     private String ERROR_MESSAGE;
     @Autowired
     private Utils utils;
     @Autowired
-    private AddStockMapper mapper;
+    private AddFactoryMapper mapper;
 
     @Override
-    public boolean isExecutable(StockInfo stockInfo) {
-        return stockInfo.getFunction().equals(StockInfo.Function.ADD_STOCK.operation());
+    public boolean isExecutable(FactoryInfo stockInfo) {
+        return stockInfo.getFunction().equals(FactoryInfo.Function.ADD_STOCK.operation());
     }
 
     @Transactional
     @Override
-    public String result(StockInfo stockInfo) {
+    public String result(FactoryInfo stockInfo) {
         if (!utils.isValidatedNumber(stockInfo.getAmount())) {
             return ERROR_MESSAGE;
         }
 
-        mapper.addStock(AddStockData.builder()
+        mapper.addStock(AddFactorykData.builder()
                 .serial(stockInfo.getSerial())
                 .name(stockInfo.getName())
                 .amount(new BigDecimal(stockInfo.getAmount())).build());

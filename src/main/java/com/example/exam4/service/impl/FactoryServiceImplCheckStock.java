@@ -1,9 +1,9 @@
 package com.example.exam4.service.impl;
 
-import com.example.exam4.StockInfo;
-import com.example.exam4.service.StockService;
-import com.example.exam4.service.mapper.data.CheckStockData;
-import com.example.exam4.service.mapper.CheckStockMapper;
+import com.example.exam4.FactoryInfo;
+import com.example.exam4.service.FactoryService;
+import com.example.exam4.service.mapper.data.ChecFactoryData;
+import com.example.exam4.service.mapper.CheckFactoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,20 +16,20 @@ import java.util.stream.Collectors;
  *
  */
 @Component
-public class StockServiceImplCheckStock implements StockService {
+public class FactoryServiceImplCheckStock implements FactoryService {
     @Autowired
-    private CheckStockMapper mapper;
+    private CheckFactoryMapper mapper;
 
     @Override
-    public boolean isExecutable(StockInfo stockInfo) {
-        return stockInfo.getFunction().equals(StockInfo.Function.CHECK_STOCK.operation());
+    public boolean isExecutable(FactoryInfo stockInfo) {
+        return stockInfo.getFunction().equals(FactoryInfo.Function.CHECK_STOCK.operation());
     }
 
     @Override
-    public String result(StockInfo stockInfo) {
+    public String result(FactoryInfo stockInfo) {
             return mapper.selectAllStock()
                     .stream()
-                    .sorted(Comparator.comparing(CheckStockData::getName))
+                    .sorted(Comparator.comparing(ChecFactoryData::getName))
                     .filter(info -> info.getAmount().intValue() > 0)
                     .map(info -> String.format("%s: %s", info.getName(), info.getAmount()))
                     .collect(Collectors.joining(System.getProperty("line.separator")));

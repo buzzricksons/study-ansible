@@ -1,7 +1,7 @@
 package com.example.exam4.service.impl;
 
-import com.example.exam4.StockInfo;
-import com.example.exam4.service.StockService;
+import com.example.exam4.FactoryInfo;
+import com.example.exam4.service.FactoryService;
 import com.example.exam4.service.mapper.CheckSalesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,18 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Component
-public class StockServiceImplCheckSales implements StockService {
+public class FactoryServiceImplCheckSales implements FactoryService {
     @Autowired
     private CheckSalesMapper mapper;
 
     @Override
-    public boolean isExecutable(StockInfo stockInfo) {
-        return stockInfo.getFunction().equals(StockInfo.Function.CHECK_SALES.operation());
+    public boolean isExecutable(FactoryInfo stockInfo) {
+        return stockInfo.getFunction().equals(FactoryInfo.Function.CHECK_SALES.operation());
     }
 
     @Transactional
     @Override
-    public String result(StockInfo stockInfo) {
+    public String result(FactoryInfo stockInfo) {
         return String.format("sales: %s", mapper.salesSum());
     }
 }

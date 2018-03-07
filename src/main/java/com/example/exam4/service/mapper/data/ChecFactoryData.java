@@ -5,17 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-
 /**
- * {@link com.example.exam4.service.mapper.AddStockMapper}で利用するデータクラスです。
+ * {@link com.example.exam4.service.mapper.CheckFactoryMapper}で利用するデータクラスです。
  *
  * @author HyungCheol Kim
  */
 @Setter
 @Getter
 @Builder
-public class AddStockData {
-    private final String serial;
+public class ChecFactoryData {
     private final String name;
     private final BigDecimal amount;
 }

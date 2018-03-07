@@ -6,20 +6,20 @@ import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
 /**
- * {@link Exam4RestController#stocker(HttpSession, StockInfo)}で利用されるリクエストパラメータを格納するクラスです。
+ * {@link Exam4RestController#factory(HttpSession, FactoryInfo)}で利用されるリクエストパラメータを格納するクラスです。
  *
  * @author HyungCheol Kim
  *
  */
 @Setter
-public class StockInfo {
+public class FactoryInfo {
     private String function;
     private String name;
     private String amount;
     private String price;
     private final String serial = UUID.randomUUID().toString();
 
-    public StockInfo(){
+    public FactoryInfo(){
     }
 
     public String getFunction() {

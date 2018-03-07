@@ -44,7 +44,7 @@ public class Exam2SecurityConfig  extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/secret", "/secret/*").authenticated()
+                .antMatchers("/private", "/private/*").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .httpBasic()

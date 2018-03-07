@@ -1,6 +1,6 @@
 package com.example.exam4.service;
 
-import com.example.exam4.StockInfo;
+import com.example.exam4.FactoryInfo;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
  * @author HyungCheol Kim
  */
 @Service
-public interface StockService {
+public interface FactoryService {
     /**
      * 引数のstockInfoに対するサービスかを判断します。
      * @param stockInfo
      * @return
      */
-    boolean isExecutable(StockInfo stockInfo);
+    boolean isExecutable(FactoryInfo stockInfo);
 
     /**
      * 引数のstockInfoから処理を行い、結果を返します。
      * @param stockInfo
      * @return 文字列
      */
-    String result(StockInfo stockInfo);
+    String result(FactoryInfo stockInfo);
 }

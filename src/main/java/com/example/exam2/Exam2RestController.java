@@ -23,7 +23,7 @@ public class Exam2RestController {
      * @param session セッション情報
      * @return 文字列
      */
-    @RequestMapping("/secret")
+    @RequestMapping("/private")
     public String secret(HttpSession session) {
         return value;
     }

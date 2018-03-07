@@ -1,7 +1,7 @@
 package com.example.exam4.service.mapper;
 
-import com.example.exam4.StockInfo;
-import com.example.exam4.service.mapper.data.CheckStockData;
+import com.example.exam4.FactoryInfo;
+import com.example.exam4.service.mapper.data.ChecFactoryData;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
@@ -15,14 +15,14 @@ import java.util.List;
  */
 @Component
 @Mapper
-public interface CheckStockMapper {
+public interface CheckFactoryMapper {
     /**
      * 全ての在庫情報を取得します。
      *
      * @return 在庫情報のリスト
      */
     @Select("SELECT name, sum(amount) as amount FROM stock GROUP BY name")
-    List<CheckStockData> selectAllStock();
+    List<ChecFactoryData> selectAllStock();
 
     /**
      * 引数に対する在庫情報を取得します。
@@ -31,5 +31,5 @@ public interface CheckStockMapper {
      * @return 在庫情報
      */
     @Select("SELECT name, sum(amount) as amount FROM stock WHERE name = #{name} GROUP BY name")
-    CheckStockData selectStock(StockInfo info);
+    ChecFactoryData selectStock(FactoryInfo info);
 }

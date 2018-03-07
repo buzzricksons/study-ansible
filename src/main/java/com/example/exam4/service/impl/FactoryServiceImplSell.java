@@ -1,9 +1,9 @@
 package com.example.exam4.service.impl;
 
-import com.example.exam4.StockInfo;
-import com.example.exam4.service.StockService;
-import com.example.exam4.service.mapper.data.AddStockData;
-import com.example.exam4.service.mapper.AddStockMapper;
+import com.example.exam4.FactoryInfo;
+import com.example.exam4.service.FactoryService;
+import com.example.exam4.service.mapper.data.AddFactorykData;
+import com.example.exam4.service.mapper.AddFactoryMapper;
 import com.example.exam4.service.mapper.data.SellData;
 import com.example.exam4.service.mapper.SellMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +19,20 @@ import java.math.BigDecimal;
  *
  */
 @Component
-public class StockServiceImplSell implements StockService {
+public class FactoryServiceImplSell implements FactoryService {
     @Autowired
     private SellMapper sellMapper;
     @Autowired
-    private AddStockMapper addStockMapper;
+    private AddFactoryMapper addStockMapper;
 
     @Override
-    public boolean isExecutable(StockInfo stockInfo) {
-        return stockInfo.getFunction().equals(StockInfo.Function.SELL.operation());
+    public boolean isExecutable(FactoryInfo stockInfo) {
+        return stockInfo.getFunction().equals(FactoryInfo.Function.SELL.operation());
     }
 
     @Transactional
     @Override
-    public String result(StockInfo stockInfo) {
+    public String result(FactoryInfo stockInfo) {
         BigDecimal price = new BigDecimal(stockInfo.getPrice());
         BigDecimal amount = new BigDecimal(stockInfo.getAmount());
         SellData sellData = SellData.builder()
@@ -43,7 +43,7 @@ public class StockServiceImplSell implements StockService {
                 .sale(price.compareTo(new BigDecimal(0)) < 1 ? new BigDecimal(0) : amount.multiply(price))
                 .build();
 
-        AddStockData addStockData = AddStockData.builder()
+        AddFactorykData addStockData = AddFactorykData.builder()
                 .serial(sellData.getSerial())
                 .name(sellData.getName())
                 .amount(sellData.getAmount().negate()).build();

@@ -1,6 +1,6 @@
 package com.example.exam4.service.mapper;
 
-import com.example.exam4.service.mapper.data.AddStockData;
+import com.example.exam4.service.mapper.data.AddFactorykData;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Mapper
-public interface AddStockMapper {
+public interface AddFactoryMapper {
     /**
      * 在庫を追加を行います。
      *
      * @param addStockData 在庫データ
      */
     @Insert("INSERT INTO STOCK (serial, name, amount) VALUES (#{serial}, #{name}, #{amount})")
-    void addStock(AddStockData addStockData);
+    void addStock(AddFactorykData addStockData);
 }
