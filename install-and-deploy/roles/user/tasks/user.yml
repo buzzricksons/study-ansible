@@ -1,5 +1,9 @@
 ---
 
+- name: Add group {{ username }}
+  group: name={{ username }}
+  state: present
+
 - name: Adding user {{ username }}
   user: name={{ username }}
         group={{ username }}
